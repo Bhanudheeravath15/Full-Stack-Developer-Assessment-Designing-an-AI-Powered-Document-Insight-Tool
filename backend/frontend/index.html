@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Document Insight Tool</title>
+</head>
+<body>
+  <h2>Upload PDF</h2>
+  <input type="file" id="pdfFile" />
+  <button onclick="uploadFile()">Upload</button>
+
+  <h3>Response</h3>
+  <pre id="result"></pre>
+
+<script>
+async function uploadFile() {
+  let fileInput = document.getElementById("pdfFile");
+  if (fileInput.files.length === 0) {
+    alert("Please select a file first!");
+    return;
+  }
+
+  let formData = new FormData();
+  formData.append("file", fileInput.files[0]);
+
+  let response = await fetch("http://127.0.0.1:8000/upload/", {
+    method: "POST",
+    body: formData
+  });
+
+  let result = await response.json();
+  document.getElementById("result").textContent = JSON.stringify(result, null, 2);
+}
+</script>
+</body>
+</html>
